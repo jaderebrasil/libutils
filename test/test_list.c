@@ -1,5 +1,6 @@
+#include <assert.h>
 #include <stdio.h>
-#include "../include/list.h"
+#include <list.h> /* list_ */
 #include "test.h"
 
 bool
@@ -8,29 +9,33 @@ list_set_int(List lst, size_t ind, int value)
     return list_set(lst, ind, &value);
 }
 
+int
+list_get_int(List lst, size_t ind)
+{
+    return *(int*)list_get(lst, ind);
+}
+
 void
 test_list(void)
 {
+    /* Basic tests */
     List lst = list_new(int);
     int a = 42;
-    printf("Pushing: ");
-    for (size_t i = 0; i < 100; i++) {
-        putchar('*');
+    for (size_t i = 0; i < 100; i++)
         if (!list_push(lst, &a))
             break;
-    }
-    printf("Print: \n");
-    for (size_t i = 0; i < list_len(lst); i++)
-        printf("[%d, %lld]", *(int*)list_get(lst, i), i+1);
+
+    assert(list_len(lst) == 100);
+    assert(list_get_int(lst, 99) == a);
     
-    if (list_set_int(lst, 99, 30))
-        printf("\nChange: [%d, %d]\n\n", *(int*)list_get(lst, 99), 100);
+    int b = 30;
+    if (list_set_int(lst, 99, b))
+        assert(list_get_int(lst, 99) == b);
 
     int dst;
     list_pop(lst, &dst);
-    printf("\n--> %d <--\n", dst);
+    assert(dst == b);
 
-    printf("Print: \n");
     for (size_t i = 0; i < list_len(lst); i++)
-        printf("[%d, %lld]", *(int*)list_get(lst, i), i+1);
+        assert(list_get_int(lst, i) == a);
 }

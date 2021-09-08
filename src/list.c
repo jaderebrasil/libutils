@@ -1,8 +1,8 @@
-#include "../include/list.h"
-
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
+
+#include "list.h"
 
 struct List_s {
     const size_t item_size;

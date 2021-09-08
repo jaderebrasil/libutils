@@ -1,6 +1,6 @@
 #pragma once
 /* String Extension */
 
-char *strtriml(char *str);
-char *strtrimr(char *str);
-char *strtrim(char *str);
+char *strtriml(const char *_Source);
+char *strtrimr(const char *_Source);
+char *strtrim(const char *_Source);
