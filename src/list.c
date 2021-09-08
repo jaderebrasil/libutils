@@ -24,7 +24,7 @@ list_cap(const struct List_s *lst)
     return lst->len;
 }
 
-const void*
+const void *
 list_array(const struct List_s *lst)
 {
     return lst->ptr;
@@ -37,7 +37,7 @@ list_err(const char *msg)
     exit(1);
 }
 
-struct List_s*
+struct List_s *
 list_with_cap(const size_t item_size, const size_t cap, const size_t grow_rate)
 {
     assert(item_size > 0);
