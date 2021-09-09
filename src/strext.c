@@ -45,3 +45,26 @@ strtrim(const char *_Source)
 {
     return strtrimr(strtriml(_Source));
 }
+
+
+/*
+ * basically the same as strtok_r, but write 
+ * the character value in the last parameter
+ * skipped by strspn.
+ */
+char *
+strtok_rc(char *restrict str, const char *restrict skip_set, char **restrict save_ptr, size_t *restrict c)
+{
+    if (!str && !(str = *save_ptr)) return NULL;
+	str += (*c = strspn(str, skip_set));
+
+	if (!*str) return (*save_ptr = 0);
+	*save_ptr = str + strcspn(str, skip_set);
+
+	if (**save_ptr) 
+        *(*save_ptr)++ = 0;
+	else 
+        *save_ptr = 0;
+
+	return str;
+}

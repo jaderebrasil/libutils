@@ -17,7 +17,7 @@ void list_free(struct List_s *lst);
 bool list_set(struct List_s *__restrict__ lst, size_t ind, const void *__restrict__ value);
 
 const void *list_get(const struct List_s* lst, size_t ind);
-const void* list_array(const struct List_s *lst);
+const void *list_array(const struct List_s *lst);
 size_t list_len(const struct List_s *lst);
 size_t list_cap(const struct List_s *lst);
 

@@ -10,6 +10,26 @@
 #define RESET "\033[0m"
 #define info_ok(n) printf("%s [%s]................................... %sOK%s\n", "test_strext", #n, GREEN, RESET);
 
+
+void
+test_strtok_rc(void)
+{
+    char str[] = "1\n\n22\n\n\n333\n\n\n\n4444\n\n\n\n\n55555";
+    const char *sep = "\n";
+    char *token;
+    char *rest = NULL;
+    size_t found = 0;
+    size_t i = 0;
+
+    token = strtok_rc(str, sep, &rest, &found);
+
+    while (token != NULL) {
+        assert(found == i);
+        token = strtok_rc(NULL, sep, &rest, &found);
+        i++;
+    };
+}
+
 void
 test_strext(void)
 {
@@ -28,5 +48,8 @@ test_strext(void)
     info_ok(4__trim);
 
     assert(strcmp(strtrim(""), ""));
-    info_ok(4_empty);
+    info_ok(5_empty);
+
+    test_strtok_rc();
+    info_ok(6_tokrc);
 }
