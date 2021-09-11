@@ -4,7 +4,7 @@
 
 #include "list.h"
 
-struct List_s {
+struct List {
     const size_t item_size;
     const float grow_rate;
     size_t cap;
@@ -13,19 +13,19 @@ struct List_s {
 };
 
 size_t
-list_len(const struct List_s *lst)
+list_len(const List *lst)
 {
     return lst->len;
 }
 
 size_t
-list_cap(const struct List_s *lst)
+list_cap(const List *lst)
 {
     return lst->len;
 }
 
 const void *
-list_array(const struct List_s *lst)
+list_array(const List *lst)
 {
     return lst->ptr;
 }
@@ -37,14 +37,14 @@ list_err(const char *msg)
     exit(1);
 }
 
-struct List_s *
+List *
 list_with_cap(const size_t item_size, const size_t cap, const size_t grow_rate)
 {
     assert(item_size > 0);
     assert(cap > 0);
     assert(grow_rate >= 2);
 
-    struct List_s *lst = malloc(sizeof(struct List_s));  
+    List *lst = malloc(sizeof(List));  
 
     if (lst == NULL)
         list_err("list_new: allocation failed.");
@@ -63,7 +63,7 @@ list_with_cap(const size_t item_size, const size_t cap, const size_t grow_rate)
 }
 
 _unsafe void *
-list_get_mut(struct List_s *lst, size_t ind)
+list_get_mut(List *lst, size_t ind)
 {
     assert(ind < lst->cap);
     if (ind > lst->cap)
@@ -73,14 +73,14 @@ list_get_mut(struct List_s *lst, size_t ind)
 }
 
 const void *
-list_get(const struct List_s *lst, size_t ind)
+list_get(const List *lst, size_t ind)
 {
     assert(ind < lst->len);
-    return list_get_mut((struct List_s*)lst, ind);
+    return list_get_mut((List*)lst, ind);
 }
 
 static bool
-list_reserve(struct List_s *lst, size_t r)
+list_reserve(List *lst, size_t r)
 {
     size_t reserve = lst->len + r;
     size_t ncap = lst->cap;
@@ -102,7 +102,7 @@ list_reserve(struct List_s *lst, size_t r)
 }
 
 bool
-list_push(struct List_s *restrict lst, const void *restrict el)
+list_push(List *restrict lst, const void *restrict el)
 {
     if (!list_reserve(lst, 1))
         return false;
@@ -116,7 +116,7 @@ list_push(struct List_s *restrict lst, const void *restrict el)
 }
 
 bool
-list_pop(struct List_s *restrict lst, void *restrict dst)
+list_pop(List *restrict lst, void *restrict dst)
 {
     if (!lst->len)
         return false;
@@ -128,7 +128,7 @@ list_pop(struct List_s *restrict lst, void *restrict dst)
 }
 
 bool
-list_set(struct List_s *restrict lst, size_t ind, const void *restrict value)
+list_set(List *restrict lst, size_t ind, const void *restrict value)
 {
     assert(ind < lst->len);
     if (ind >= lst->len)
@@ -141,7 +141,7 @@ list_set(struct List_s *restrict lst, size_t ind, const void *restrict value)
 }
 
 void
-list_free(struct List_s *lst)
+list_free(List *lst)
 {
     free(lst->ptr);
     free(lst);

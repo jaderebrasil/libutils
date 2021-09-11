@@ -4,13 +4,13 @@
 #include "test.h"
 
 bool
-list_set_int(List lst, size_t ind, int value)
+list_set_int(List *lst, size_t ind, int value)
 {
     return list_set(lst, ind, &value);
 }
 
 int
-list_get_int(List lst, size_t ind)
+list_get_int(List *lst, size_t ind)
 {
     return *(int*)list_get(lst, ind);
 }
@@ -19,7 +19,7 @@ void
 test_list(void)
 {
     /* Basic tests */
-    List lst = list_new(int);
+    List *lst = list_new(int);
     int a = 42;
     for (size_t i = 0; i < 100; i++)
         if (!list_push(lst, &a))
