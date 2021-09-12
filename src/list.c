@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "list.h"
+#include "error.h"
 
 struct List {
     const size_t item_size;
@@ -24,13 +25,6 @@ list_cap(const List *lst)
     return lst->len;
 }
 
-static void
-list_err(const char *msg)
-{
-    fprintf(stderr, "%s\n", msg);
-    exit(1);
-}
-
 List *
 list_with_cap(const size_t item_size, const size_t cap, const float grow_rate)
 {
@@ -38,14 +32,14 @@ list_with_cap(const size_t item_size, const size_t cap, const float grow_rate)
     assert(cap > 0);
 
     if ((size_t)(grow_rate * cap) <= cap) {
-        list_err("You need to make sure the growth rate increases capacity. " 
+        error_exit("You need to make sure the growth rate increases capacity. " 
                  "That is, (size_t)(grow_rate * cap) > cap.");
     }
 
     List *lst = malloc(sizeof(List));  
 
     if (lst == NULL)
-        list_err("list_new: allocation failed.");
+        error_exit("list_new: allocation failed.");
 
     *(size_t*)&lst->item_size = item_size;
     *(float*)&lst->grow_rate = grow_rate;

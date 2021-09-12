@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "strext.h"
+#include "error.h"
 
 char *
 strtriml(const char *_Source)
@@ -11,13 +12,13 @@ strtriml(const char *_Source)
     assert(_Source != NULL);
 
     size_t len = strlen(_Source);
-    char *str = malloc(len);
-    if (len == 0)
-        return str;
+    if (len == 0) return (char*)"";
 
+    char *str = malloc(len);
+    if (!str) error_exit("malloc failed.");
     strcpy(str, _Source);
 
-    while(isspace(*str)) str++;
+    while(isspace(*str)) str++; /* */
     return str; 
 }
 
@@ -27,15 +28,15 @@ strtrimr(const char *_Source)
     assert(_Source != NULL);
 
     size_t len = strlen(_Source);
-    char *str = malloc(len);
-    if (len == 0)
-        return str;
+    if (len == 0) return (char*)"";
 
+    char *str = malloc(len);
+    if (!str) error_exit("malloc failed.");
     strcpy(str, _Source);
 
     char *aux = str + strlen(str);
-    while(isspace(*--aux));
-    *(aux + 1) = '\0';
+    while(isspace(*--aux)); /* */
+    *(aux + 1) = '\0'; /* */
 
     return str;
 }
@@ -45,7 +46,6 @@ strtrim(const char *_Source)
 {
     return strtrimr(strtriml(_Source));
 }
-
 
 /*
  * basically the same as strtok_r, but write 
@@ -68,3 +68,4 @@ strtok_rc(char *restrict str, const char *restrict skip_set, char **restrict sav
 
 	return str;
 }
+

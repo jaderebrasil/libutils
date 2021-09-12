@@ -42,8 +42,15 @@ test_strext(void)
     assert(!strcmp(strtrim("  str  "), "str"));
     info_ok(trim);
 
-    assert(strcmp(strtrim(""), ""));
-    info_ok(empty);
+    assert(!strcmp(strtrim("   "), ""));
+    info_ok(trim_spaces);
+
+    assert(!strcmp(strtrim(""), ""));
+    info_ok(trim_empty);
+
+    //printf("%s\n", strtrim(NULL));
+    //assert(!strcmp(strtrim(NULL), ""));
+    //info_ok(null);
 
     test_strtok_rc();
     info_ok(tokrc);

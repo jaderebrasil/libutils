@@ -50,4 +50,5 @@ test_list(void)
         assert(data[i] == a);
     
     info_ok(free_as_array);
+    free(data);
 }

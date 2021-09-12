@@ -59,4 +59,10 @@ run:
 	@echo "----------------------"
 	./${TARGET}
 
+copypres:
+	cp include/list.h ~/projs/cpres/include/list.h
+	cp include/strext.h ~/projs/cpres/include/strext.h
+	cp build/list.o ~/projs/cpres/olibs/list.o
+	cp build/strext.o ~/projs/cpres/olibs/strext.o
+
 .PHONY: all test options clean
