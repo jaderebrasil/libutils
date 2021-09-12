@@ -12,22 +12,16 @@ struct List {
     char *ptr;
 };
 
-size_t
+inline size_t
 list_len(const List *lst)
 {
     return lst->len;
 }
 
-size_t
+inline size_t
 list_cap(const List *lst)
 {
     return lst->len;
-}
-
-const void *
-list_array(const List *lst)
-{
-    return lst->ptr;
 }
 
 static void
@@ -38,11 +32,15 @@ list_err(const char *msg)
 }
 
 List *
-list_with_cap(const size_t item_size, const size_t cap, const size_t grow_rate)
+list_with_cap(const size_t item_size, const size_t cap, const float grow_rate)
 {
     assert(item_size > 0);
     assert(cap > 0);
-    assert(grow_rate >= 2);
+
+    if ((size_t)(grow_rate * cap) <= cap) {
+        list_err("You need to make sure the growth rate increases capacity. " 
+                 "That is, (size_t)(grow_rate * cap) > cap.");
+    }
 
     List *lst = malloc(sizeof(List));  
 
@@ -62,7 +60,7 @@ list_with_cap(const size_t item_size, const size_t cap, const size_t grow_rate)
     return lst;
 }
 
-_unsafe void *
+static inline void *
 list_get_mut(List *lst, size_t ind)
 {
     assert(ind < lst->cap);
@@ -72,7 +70,7 @@ list_get_mut(List *lst, size_t ind)
     return &lst->ptr[ind * lst->item_size];
 }
 
-const void *
+inline const void *
 list_get(const List *lst, size_t ind)
 {
     assert(ind < lst->len);
@@ -140,9 +138,17 @@ list_set(List *restrict lst, size_t ind, const void *restrict value)
     return true;
 }
 
-void
+inline void
 list_free(List *lst)
 {
     free(lst->ptr);
     free(lst);
 }
+
+inline void
+list_free_as_array(List *restrict lst, void **arr)
+{
+    *arr = lst->ptr; 
+    free(lst);
+}
+

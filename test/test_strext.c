@@ -6,11 +6,6 @@
 #include <strext.h> /* str____ */
 #include "test.h"
 
-#define GREEN "\033[0;32m"
-#define RESET "\033[0m"
-#define info_ok(n) printf("%s [%s]................................... %sOK%s\n", "test_strext", #n, GREEN, RESET);
-
-
 void
 test_strtok_rc(void)
 {
@@ -36,20 +31,20 @@ test_strext(void)
     const char *in = "  str  ";
 
     assert(!strcmp(strtriml("  str  "), "str  "));
-    info_ok(1_triml);
+    info_ok(triml);
 
     assert(!strcmp(in, "  str  "));
-    info_ok(2_const);
+    info_ok(const);
 
     assert(!strcmp(strtrimr("  str  "), "  str"));
-    info_ok(3_trimr);
+    info_ok(trimr);
 
     assert(!strcmp(strtrim("  str  "), "str"));
-    info_ok(4__trim);
+    info_ok(trim);
 
     assert(strcmp(strtrim(""), ""));
-    info_ok(5_empty);
+    info_ok(empty);
 
     test_strtok_rc();
-    info_ok(6_tokrc);
+    info_ok(tokrc);
 }
