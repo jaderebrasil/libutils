@@ -18,6 +18,12 @@ CFLAGS=-Wall -Wextra -Wpedantic \
 	   -std=${STDC} -Os\
 	   -Iinclude/
 
+### Dev tools ###
+CFLAGS+=-DDEBUG -ggdb3
+
+VALGRIND_FLAGS=--leak-check=full --show-leak-kinds=all\
+		--track-origins=yes #--log-file=log.txt --verbose
+
 # GCC warnings that Clang doesn't provide:
 ifeq (${CC},gcc)
     CFLAGS+=-Wjump-misses-init -Wlogical-op
@@ -32,9 +38,6 @@ OBJ_BUILD=$(addprefix ./${BUILD_DIR}/,$(notdir ${OBJ}))
 TARGET=./${BUILD_DIR}/run_test
 ##########################
 all: options bin run
-
-test: CFLAGS+=-DDEBUG -g
-test: clean options bin run
 ##########################
 
 options:
@@ -64,5 +67,8 @@ copypres:
 	cp include/strext.h ~/projs/c/cpres/include/strext.h
 	cp build/list.o ~/projs/c/cpres/olibs/list.o
 	cp build/strext.o ~/projs/c/cpres/olibs/strext.o
+
+valgrind:
+	valgrind $(VALGRIND_FLAGS) ./build/run_test
 
 .PHONY: all test options clean

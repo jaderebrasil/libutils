@@ -28,24 +28,31 @@ test_strtok_rc(void)
 void
 test_strext(void)
 {
-    const char *in = "  str  ";
+    char *in = calloc(8, 1);
+    strcpy(in, "  str  ");
 
-    assert(!strcmp(strtriml("  str  "), "str  "));
+    assert(!strcmp(strtriml(in), "str  "));
     info_ok(triml);
 
     assert(!strcmp(in, "  str  "));
     info_ok(const);
 
-    assert(!strcmp(strtrimr("  str  "), "  str"));
+    assert(!strcmp(strtrimr(in), "  str"));
     info_ok(trimr);
 
-    assert(!strcmp(strtrim("  str  "), "str"));
+    assert(!strcmp(strtrim(in), "str"));
     info_ok(trim);
 
-    assert(!strcmp(strtrim("   "), ""));
+    for (size_t i = 0; i < 7; i++)
+        if (i % 2 == 0)
+            in[i] = '\t';
+        else
+            in[i] = ' ';
+
+    assert(!strcmp(strtrim(in), ""));
     info_ok(trim_spaces);
 
-    assert(!strcmp(strtrim(""), ""));
+    assert(!strcmp(strtrim(in), ""));
     info_ok(trim_empty);
 
     //printf("%s\n", strtrim(NULL));
@@ -54,4 +61,8 @@ test_strext(void)
 
     test_strtok_rc();
     info_ok(tokrc);
+
+    free(in);
+    in = NULL;
 }
+

@@ -22,7 +22,7 @@ list_len(const List *lst)
 inline size_t
 list_cap(const List *lst)
 {
-    return lst->len;
+    return lst->cap;
 }
 
 List *
@@ -32,11 +32,11 @@ list_with_cap(const size_t item_size, const size_t cap, const float grow_rate)
     assert(cap > 0);
 
     if ((size_t)(grow_rate * cap) <= cap) {
-        error_exit("You need to make sure the growth rate increases capacity. " 
+        error_exit("You need to make sure the growth rate increases capacity. "
                  "That is, (size_t)(grow_rate * cap) > cap.");
     }
 
-    List *lst = malloc(sizeof(List));  
+    List *lst = malloc(sizeof(List));
 
     if (lst == NULL)
         error_exit("list_new: allocation failed.");
@@ -77,7 +77,7 @@ list_reserve(List *lst, size_t r)
     size_t reserve = lst->len + r;
     size_t ncap = lst->cap;
 
-    if (reserve <= ncap) 
+    if (reserve <= ncap)
         return true;
 
     while (ncap < reserve)
@@ -104,7 +104,7 @@ list_push(List *restrict lst, const void *restrict el)
 
     lst->len++;
 
-    return true; 
+    return true;
 }
 
 bool
@@ -155,3 +155,4 @@ list_free_as_array(List *restrict lst, void **arr)
 
     return cap;
 }
+

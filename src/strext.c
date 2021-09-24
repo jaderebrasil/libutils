@@ -4,35 +4,27 @@
 #include <string.h>
 
 #include "strext.h"
-#include "error.h"
 
 char *
-strtriml(const char *_Source)
+strtriml(char *str)
 {
-    assert(_Source != NULL);
+    assert(str != NULL);
 
-    size_t len = strlen(_Source);
+    size_t len = strlen(str);
     if (len == 0) return (char*)"";
 
-    char *str = malloc(len);
-    if (!str) error_exit("malloc failed.");
-    strcpy(str, _Source);
-
     while(isspace(*str)) str++; /* */
-    return str; 
+
+    return str;
 }
 
 char *
-strtrimr(const char *_Source)
+strtrimr(char *str)
 {
-    assert(_Source != NULL);
+    assert(str != NULL);
 
-    size_t len = strlen(_Source);
+    size_t len = strlen(str);
     if (len == 0) return (char*)"";
-
-    char *str = malloc(len);
-    if (!str) error_exit("malloc failed.");
-    strcpy(str, _Source);
 
     char *aux = str + strlen(str);
     while(isspace(*--aux)); /* */
@@ -42,9 +34,9 @@ strtrimr(const char *_Source)
 }
 
 char *
-strtrim(const char *_Source)
+strtrim(char *str)
 {
-    return strtrimr(strtriml(_Source));
+    return strtrimr(strtriml(str));
 }
 
 /*

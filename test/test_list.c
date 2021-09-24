@@ -31,7 +31,7 @@ test_list(void)
     assert(list_len(lst) == 100);
     assert(list_get_int(lst, 99) == a);
     info_ok(push);
-    
+
     int b = 30;
     if (list_set_int(lst, 99, b))
         assert(list_get_int(lst, 99) == b);
@@ -42,13 +42,21 @@ test_list(void)
     assert(dst == b);
     info_ok(pop);
 
-    int *data;
+    int *data = NULL;
     size_t LEN = list_len(lst);
-    list_free_as_array(lst, (void**)&data);
+
+    assert(list_reserve(lst, 1));
+    info_ok(list_reserve);
+
+    size_t CAP = list_cap(lst);
+    size_t cap = list_free_as_array(lst, (void**)&data);
+    assert(CAP == cap);
+    assert(data != NULL);
 
     for (size_t i = 0; i < LEN; i++)
         assert(data[i] == a);
-    
+
     info_ok(free_as_array);
     free(data);
 }
+
