@@ -46,10 +46,10 @@ list_with_cap(const size_t item_size, const size_t cap, const float grow_rate)
 
     lst->cap = cap;
     lst->len = 0;
-    lst->ptr = malloc(cap * item_size);
-    
-    for (size_t i = 0; i < cap; i++)
-        lst->ptr[i] = 0;
+    lst->ptr = calloc(cap, item_size);
+
+    if (lst->ptr == NULL)
+        error_exit("list_new: allocation failed.");
 
     return lst;
 }
@@ -139,10 +139,19 @@ list_free(List *lst)
     free(lst);
 }
 
-inline void
+inline size_t
 list_free_as_array(List *restrict lst, void **arr)
 {
-    *arr = lst->ptr; 
+    size_t cap = lst->cap;
+    size_t len = lst->len;
+    *arr = lst->ptr;
     free(lst);
-}
 
+    if (arr == NULL)
+        return 0;
+
+    if (len < cap)
+        memset(&arr[len], 0, cap - len);
+
+    return cap;
+}

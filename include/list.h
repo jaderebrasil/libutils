@@ -30,8 +30,8 @@ size_t list_len(const List *lst);
 /* the maximum number of elements before a realloc is needed. */
 size_t list_cap(const List *lst);
 
-/* free the list and writes in *arr a pointer to the data array. */
-void list_free_as_array(List *restrict lst, void **arr);
+/* free the list, writes in *arr a pointer to the data array and return current cap. */
+size_t list_free_as_array(List *restrict lst, void **arr);
 
 /* free the list and the data it contains. */
 void list_free(List *lst);
