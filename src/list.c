@@ -71,7 +71,7 @@ list_get(const List *lst, size_t ind)
     return list_get_mut((List*)lst, ind);
 }
 
-static bool
+bool
 list_reserve(List *lst, size_t r)
 {
     size_t reserve = lst->len + r;
