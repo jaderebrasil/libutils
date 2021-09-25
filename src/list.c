@@ -142,17 +142,23 @@ list_free(List *lst)
 inline size_t
 list_free_as_array(List *restrict lst, void **arr)
 {
+    char *ptr = NULL;
     size_t cap = lst->cap;
     size_t len = lst->len;
-    *arr = lst->ptr;
-    free(lst);
+    size_t isz = lst->item_size;
 
     if (arr == NULL)
         return 0;
 
+    *arr = lst->ptr;
+    ptr = (char*)*arr;
+    free(lst);
+
+    if (ptr == NULL)
+        return 0;
+
     if (len < cap)
-        memset(&arr[len], 0, cap - len);
+        memset(&ptr[len * isz], 0, cap - len);
 
     return cap;
 }
-

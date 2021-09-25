@@ -37,7 +37,7 @@ OBJ=$(SRC:%.c=%.o)
 OBJ_BUILD=$(addprefix ./${BUILD_DIR}/,$(notdir ${OBJ}))
 TARGET=./${BUILD_DIR}/run_test
 ##########################
-all: options bin run
+all: clean options bin run
 ##########################
 
 options:
@@ -71,4 +71,7 @@ copypres:
 valgrind:
 	valgrind $(VALGRIND_FLAGS) ./build/run_test
 
+clean:
+	rm build/run_test*
+	rm build/*.o
 .PHONY: all test options clean

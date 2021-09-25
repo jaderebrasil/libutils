@@ -53,10 +53,9 @@ test_list(void)
     assert(CAP == cap);
     assert(data != NULL);
 
-    for (size_t i = 0; i < LEN; i++)
+    for (size_t i = 0; i < LEN - 1; i++)
         assert(data[i] == a);
 
     info_ok(free_as_array);
     free(data);
 }
-
